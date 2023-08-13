@@ -15,6 +15,9 @@ const config = {
         }
     },
     backgroundColor:0xbababa,
+    scale: {
+        mode: Phaser.Scale.FIT
+    },
     scene: [
         GameScene
     ]
