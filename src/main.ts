@@ -6,12 +6,12 @@ const config = {
     type: Phaser.AUTO,
     parent: 'game-canvas',
     width: window.innerWidth,
-    height: window.innerHeight,
+    height: 1080,
     physics: {
         default: 'arcade',
         arcade: {
             gravity: { y: 50 },
-            // debug: true
+            //debug: true
         }
     },
     backgroundColor:0xbababa,

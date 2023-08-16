@@ -16,7 +16,7 @@ export class Ufo {
         this.beam = this.scene.physics.add.sprite(this.ufo.x, 200, '')
             .setVisible(false)
             .setOrigin(0, 0)
-            .setScale(1, 0.811)
+            .setScale(1, 0.93)
         this.beam.body.setAllowGravity(false).setSize(40, 10000, false)
         this.beam.body.setOffset(33, 0)
     }
