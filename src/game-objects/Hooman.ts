@@ -9,11 +9,12 @@ export class Hooman {
     constructor(scene: Scene) {
         this.scene = scene
         this.scene.anims.createFromAseprite('hooman')
-        this.hooman = this.scene.physics.add.sprite(Math.random() * (400 - 50) + 50, 1000, '')
+        this.hooman = this.scene.physics.add.sprite(Math.random() * ((window.innerWidth - 50) - 50) + 50, 1000, '')
             .setSize(15, 20)
             .setOffset(4, 0)
             .setCollideWorldBounds(true)
             .play({key: 'loop', repeat: -1})
+            .setVelocityX(Math.random() > 0.5 ? -50:50)
     }
 
     update() {
@@ -25,7 +26,11 @@ export class Hooman {
 
     updateMovement() {
         if (this.hooman.y > 1000) {
-            this.hooman.setVelocityX(50)
+            console.log(window.innerWidth)
+            if(this.hooman.x >= window.innerWidth - 50)
+                this.hooman.setVelocityX(-50)
+            else if (this.hooman.x <= 50)
+                this.hooman.setVelocityX(50)
         }
     }
 
