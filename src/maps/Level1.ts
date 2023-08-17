@@ -11,6 +11,6 @@ export class Level1 implements Level{
         this.background = this.scene.add.image(0, 0, 'level1').setOrigin(0, 0)
         this.background.setDisplaySize(this.scene.sys.game.canvas.width, this.scene.sys.game.canvas.height)
         this.platform = this.scene.physics.add.staticGroup()
-        this.platform.create(40, 935, 'platform').setSize(2200).setOffset(-30, 120).setVisible(false)
+        this.platform.create(45, 935, 'platform').setSize(this.scene.scale.width).setOffset(-30, 120).setVisible(false)
     }
 }
