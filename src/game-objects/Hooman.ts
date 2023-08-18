@@ -1,7 +1,9 @@
 import {Scene} from "phaser";
+import Sprite = Phaser.Physics.Arcade.Sprite;
 
 export class Hooman {
-    hooman
+    hooman: Sprite
+    lastVelocity
     lastHeight = 905
     scene
     upSpeed = Math.random() * (-150 + 50) - 50
@@ -9,29 +11,34 @@ export class Hooman {
     constructor(scene: Scene) {
         this.scene = scene
         this.scene.anims.createFromAseprite('hooman')
-        this.hooman = this.scene.physics.add.sprite(Math.random() * ((window.innerWidth - 50) - 50) + 50, 1000, '')
+        this.lastVelocity = Math.random() > 0.5 ? -200 : 200
+        this.hooman = this.scene.physics.add.sprite(Math.random() * ((window.innerWidth - 50) - 50) + 50, 760, '')
             .setSize(15, 20)
             .setOffset(4, 0)
             .setCollideWorldBounds(true)
             .play({key: 'loop', repeat: -1})
-            .setVelocityX(Math.random() > 0.5 ? -50:50)
+            .setVelocityX(this.lastVelocity)
     }
 
     update() {
-        console.log(this.lastHeight)
-        if(this.hooman?.active){
-        this.updateMovement()
+        if (this.hooman?.active) {
+            this.updateMovement()
         }
     }
 
     updateMovement() {
-        if (this.hooman.y > 1000) {
-            console.log(window.innerWidth)
-            if(this.hooman.x >= window.innerWidth - 50)
-                this.hooman.setVelocityX(-50)
-            else if (this.hooman.x <= 50)
-                this.hooman.setVelocityX(50)
+        if (this.hooman.body!!.velocity.y == 0) {
+            this.hooman.rotation = 0
+            if (this.hooman.x >= 1500) {
+                this.hooman.setVelocityX(-200)
+                this.lastVelocity = -200
+            } else if (this.hooman.x <= 100) {
+                this.lastVelocity = 200
+                this.hooman.setVelocityX(200)
+            } else this.hooman.setVelocityX(this.lastVelocity)
         }
+        console.log(this.hooman.x)
+        console.log(this.hooman.body!!.x)
     }
 
 }

@@ -4,19 +4,20 @@ import {GameScene} from "./scenes/GameScene.ts";
 
 const config = {
     type: Phaser.AUTO,
-    parent: 'game-canvas',
-    width: window.innerWidth,
-    height: 1080,
+    backgroundColor:0xbababa,
     physics: {
         default: 'arcade',
         arcade: {
             gravity: { y: 50 },
-            //debug: true
+            debug: true
         }
     },
-    backgroundColor:0xbababa,
     scale: {
-        mode: Phaser.Scale.FIT
+        mode: Phaser.Scale.FIT,
+        parent: 'game-canvas',
+        width: 1600,
+        height: 800,
+        autoCenter: Phaser.Scale.CENTER_BOTH,
     },
     scene: [
         GameScene
