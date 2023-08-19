@@ -19,6 +19,7 @@ export class GameScene extends Scene {
     }
 
     create() {
+        this.anims.createFromAseprite('hooman')
         this.level = new Level1(this)
         this.ufo = new Ufo(this)
         for (let i = 0; i < 50; i++) {
@@ -38,14 +39,15 @@ export class GameScene extends Scene {
     }
 
     setColliders() {
-        this.hoomans.forEach((hoooman, index) => {
+        this.hoomans.forEach((hoooman) => {
             this.physics.add.collider(
                 hoooman.hooman,
                 this.level!!.platform,
                 () => {
+                    // die when falling from too high
                     if (hoooman.lastHeight < 600) {
+                        hoooman.hooman.anims.stop()
                         hoooman.hooman.destroy()
-                        this.hoomans.splice(index, 1)
                     }
                 }
             )

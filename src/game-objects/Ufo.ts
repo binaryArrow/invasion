@@ -17,8 +17,8 @@ export class Ufo {
             .setVisible(false)
             .setOrigin(0, 0)
             .setScale(1, 0.66)
-        this.beam.body.setAllowGravity(false).setSize(40, 10000, false)
-        this.beam.body.setOffset(33, 0)
+        this.beam.body.setAllowGravity(false).setSize(30, 10000, false)
+        this.beam.body.setOffset(37, 0)
     }
 
     update() {
