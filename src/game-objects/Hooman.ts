@@ -12,7 +12,7 @@ export class Hooman {
         this.scene = scene
         this.lastVelocity = Math.random() > 0.5 ? 50 : -50
         // x position random, and y position according to canvas height hardcoded
-        this.hooman = this.scene.physics.add.sprite(Math.random() * ((window.innerWidth - 50) - 50) + 50, 760, '')
+        this.hooman = this.scene.physics.add.sprite(Math.random() * ((window.innerWidth - 50) - 50) + 50, 760, 'hooman')
             .setSize(15, 20)
             .setOffset(4, 0)
             .setCollideWorldBounds(true)
