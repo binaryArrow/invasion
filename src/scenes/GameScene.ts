@@ -33,7 +33,7 @@ export class GameScene extends Scene {
         }
         this.setColliders()
         // this code shows the height where hoomans die after fall
-        this.add.line(0, 0, 0, 700, 1000, 700, 0xffff).setLineWidth(1)
+        this.add.line(0, 0, 0, 600, 1000, 600, 0xffff).setLineWidth(1)
     }
 
     update(_time: number, _delta: number) {
