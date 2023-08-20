@@ -33,7 +33,7 @@ export class GameScene extends Scene {
         }
         this.setColliders()
         // this code shows the height where hoomans die after fall
-        this.add.line(0, 0, 0, 600, 1000, 600, 0xffff).setLineWidth(1)
+        // this.add.line(0, 0, 0, 650, 1000, 650, 0xffff).setLineWidth(1)
     }
 
     update(_time: number, _delta: number) {
@@ -49,7 +49,7 @@ export class GameScene extends Scene {
                 this.level!!.platform,
                 () => {
                     // die when falling from too high
-                    if (hoooman.lastHeight < 600) {
+                    if (hoooman.lastHeight < 650) {
                         hoooman.hooman.anims.stop()
                         hoooman.hooman.destroy()
                     }
