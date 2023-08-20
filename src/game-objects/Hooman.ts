@@ -27,6 +27,10 @@ export class Hooman {
     }
 
     updateMovement() {
+        // update last height
+        if (this.lastHeight > this.hooman.y) {
+            this.lastHeight = this.hooman.y
+        }
         if (this.hooman.body!!.velocity.y == 0) {
             this.hooman.rotation = 0
             if (this.hooman.x >= this.scene.game.canvas.width - this.hooman.body!!.width) {
