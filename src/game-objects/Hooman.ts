@@ -3,14 +3,14 @@ import Sprite = Phaser.Physics.Arcade.Sprite;
 
 export class Hooman {
     hooman: Sprite
-    lastVelocity
-    lastHeight = 905
+    lastVelocity = Math.random() > 0.5 ? 50 : -50
+    lastHeight = 760
     scene
     upSpeed = Math.random() * (-150 + 50) - 50
 
     constructor(scene: Scene) {
         this.scene = scene
-        this.lastVelocity = Math.random() > 0.5 ? 50 : -50
+        scene.anims.createFromAseprite('hooman')
         // x position random, and y position according to canvas height hardcoded
         this.hooman = this.scene.physics.add.sprite(Math.random() * ((window.innerWidth - 50) - 50) + 50, 760, 'hooman')
             .setSize(15, 20)
@@ -45,5 +45,4 @@ export class Hooman {
             }
         }
     }
-
 }
