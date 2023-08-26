@@ -3,10 +3,12 @@ import Sprite = Phaser.Physics.Arcade.Sprite;
 
 export class Hooman {
     hooman: Sprite
+    deadImg
     lastVelocity = Math.random() > 0.5 ? 50 : -50
     lastHeight = 760
     scene
     upSpeed = Math.random() * (-150 + 50) - 50
+    dead = false
 
     constructor(scene: Scene) {
         this.scene = scene
@@ -21,7 +23,7 @@ export class Hooman {
     }
 
     update() {
-        if (this.hooman?.active) {
+        if (this.hooman?.active && !this.dead) {
             this.updateMovement()
         }
     }

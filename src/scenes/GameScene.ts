@@ -22,6 +22,7 @@ export class GameScene extends Scene {
         this.load.aseprite('hooman', '../../assets/hooman.png', '../../assets/hooman.json')
         this.load.aseprite('milCar', '../../assets/enemies/mil_car.png', '../../assets/enemies/mil_car.json')
         this.load.image('hoomanUi', '../../assets/UI/hooman-ui.png')
+        this.load.image('hoomanDead', '../../assets/hooman_dead.png')
     }
 
     create() {
@@ -96,7 +97,13 @@ export class GameScene extends Scene {
                     // die when falling from too high
                     if (hoooman.lastHeight < 650) {
                         hoooman.hooman.anims.stop()
+                        hoooman.dead = true
                         hoooman.hooman.destroy()
+                        hoooman.deadImg = this.add.image(hoooman.hooman.x, hoooman.hooman.y - hoooman.hooman.height / 6, 'hoomanDead')
+                            .setScale(0.25, 0.25)
+                        setTimeout(() => {
+                            hoooman.deadImg.destroy()
+                        }, 500)
                         hoooman.lastHeight = hoooman.hooman.y
                     }
                 }
