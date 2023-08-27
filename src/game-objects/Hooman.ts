@@ -3,12 +3,12 @@ import Sprite = Phaser.Physics.Arcade.Sprite;
 
 export class Hooman {
     hooman: Sprite
-    deadImg
+    deadImg: any
+    dead = false
     lastVelocity = Math.random() > 0.5 ? 50 : -50
     lastHeight = 760
     scene
     upSpeed = Math.random() * (-150 + 50) - 50
-    dead = false
 
     constructor(scene: Scene) {
         this.scene = scene
@@ -20,6 +20,7 @@ export class Hooman {
             .setCollideWorldBounds(true)
             .play({key: 'loop', repeat: -1})
             .setVelocityX(this.lastVelocity)
+            .setDepth(2)
     }
 
     update() {

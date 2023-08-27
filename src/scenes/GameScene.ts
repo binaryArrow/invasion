@@ -13,7 +13,7 @@ export class GameScene extends Scene {
     hoomans: Hooman[] = []
     level: Level | undefined
     ui: UserInterface | undefined
-    milCars: MilCar | undefined
+    milCars: MilCar[] = []
 
     preload() {
         this.load.image('ufo', ufo);
@@ -21,6 +21,7 @@ export class GameScene extends Scene {
         this.load.aseprite('laserBeam', '../../assets/laser-beam.png', '../../assets/laser-beam.json')
         this.load.aseprite('hooman', '../../assets/hooman.png', '../../assets/hooman.json')
         this.load.aseprite('milCar', '../../assets/enemies/mil_car.png', '../../assets/enemies/mil_car.json')
+        this.load.image('milCarDead', '../../assets/enemies/mil_car_dead.png')
         this.load.image('hoomanUi', '../../assets/UI/hooman-ui.png')
         this.load.image('hoomanDead', '../../assets/hooman_dead.png')
     }
@@ -31,7 +32,7 @@ export class GameScene extends Scene {
 
         // create game objects
         this.ufo = new Ufo(this)
-        this.milCars = new MilCar(this, this.ufo)
+        this.milCars = [new MilCar(this, this.ufo), new MilCar(this, this.ufo, 1200)]
         for (let i = 0; i < 50; i++) {
             this.hoomans.push(
                 new Hooman(this)
@@ -49,8 +50,8 @@ export class GameScene extends Scene {
 
     update(_time: number, _delta: number) {
         this.ufo!.update()
+        this.milCars.forEach(milCar => milCar.update())
         this.hoomans.forEach(hoooman => hoooman.update())
-        this.milCars!.update()
         this.ui!.update()
     }
 
@@ -60,32 +61,45 @@ export class GameScene extends Scene {
     }
 
     setMilCarColliders() {
-        this.physics.add.collider(
-            this.milCars!!.sprite,
-            this.level!!.platform,
-            () => {
-                // die when falling from too high
-                if (this.milCars!.lastHeight < 650) {
-                    this.milCars!.sprite.anims.stop()
-                    this.milCars!.sprite.destroy()
-                } else if (this.milCars?.sprite.active) {
-                    this.milCars!.sprite.body!.velocity.y = 0
-                    this.milCars?.sprite.play('drive', true)
+        this.milCars.forEach(milCar => {
+            this.physics.add.collider(
+                milCar.sprite,
+                this.level!!.platform,
+                () => {
+                    // die when falling from too high
+                    if (milCar.lastHeight < 650) {
+                        milCar.sprite.anims.stop()
+                        milCar.dead = true
+                        milCar.sprite.destroy()
+                        if (milCar.lastVelocity < 0) {
+                            milCar.deadImg = this.add.image(milCar.sprite.x, milCar.sprite.y, 'milCarDead')
+                                .setDepth(1)
+                                .setFlip(true, false)
+                        } else if (milCar.lastVelocity > 0) {
+                            milCar.deadImg = this.add.image(milCar.sprite.x, milCar.sprite.y, 'milCarDead')
+                                .setDepth(1)
+                                .setFlip(false, false)
+                        }
+                    } else if (milCar.sprite.active) {
+                        milCar.sprite.body!.velocity.y = 0
+                        milCar.sprite.play('drive', true)
+                    }
                 }
-            }
-        )
-        this.physics.add.overlap(
-            this.ufo!!.beam,
-            this.milCars!!.sprite,
-            () => {
-                this.milCars!.sprite.setVelocityX(0)
-                this.milCars!.sprite.body!.velocity.y = -25
-                this.milCars!.lastHeight = this.milCars!.sprite.y
-                if (this.milCars?.sprite.active) {
-                    this.milCars.sprite.anims.stop()
+            )
+            this.physics.add.overlap(
+                this.ufo!!.beam,
+                milCar.sprite,
+                () => {
+                    milCar.sprite.setVelocityX(0)
+                    milCar.sprite.body!.velocity.y = -25
+                    milCar.lastHeight = milCar.sprite.y
+                    if (milCar?.sprite.active) {
+                        milCar.sprite.anims.stop()
+                        console.log(milCar.sprite.body?.velocity.x)
+                    }
                 }
-            }
-        )
+            )
+        })
     }
 
     setHoomanColliders() {
