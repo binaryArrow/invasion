@@ -50,7 +50,7 @@ export class GameScene extends Scene {
 
     update(_time: number, _delta: number) {
         this.ufo!.update()
-        this.milCars.forEach(milCar => milCar.update())
+        this.milCars.forEach(milCar => milCar.update(_time, _delta))
         this.hoomans.forEach(hoooman => hoooman.update())
         this.ui!.update()
     }
@@ -95,7 +95,6 @@ export class GameScene extends Scene {
                     milCar.lastHeight = milCar.sprite.y
                     if (milCar?.sprite.active) {
                         milCar.sprite.anims.stop()
-                        console.log(milCar.sprite.body?.velocity.x)
                     }
                 }
             )

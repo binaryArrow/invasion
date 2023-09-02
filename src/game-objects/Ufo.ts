@@ -5,6 +5,7 @@ export class Ufo {
     beam
     scene
     movementKeys: (Phaser.Input.Keyboard.Key | undefined)[] = []
+    health = 3
     constructor(scene: Scene) {
         this.scene = scene
         this.scene.anims.createFromAseprite('laserBeam')
@@ -25,6 +26,7 @@ export class Ufo {
     update() {
         this.updateMovement()
         this.updateActions()
+        console.log(this.health)
     }
 
     setKeys() {

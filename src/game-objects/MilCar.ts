@@ -1,6 +1,8 @@
 import {Scene} from "phaser";
 import Sprite = Phaser.Physics.Arcade.Sprite;
 import {Ufo} from "./Ufo.ts";
+import Image = Phaser.Physics.Arcade.Image;
+
 
 export class MilCar {
     sprite: Sprite;
@@ -8,26 +10,52 @@ export class MilCar {
     lastHeight = 720
     moveSpeed = 100
     lastVelocity = Math.random() > 0.5 ? this.moveSpeed : -this.moveSpeed
-    ufo
+    ufo: Ufo
     deadImg: any
     dead = false
+    bullets:Image[] = []
+    lastShot = 0
 
     constructor(scene: Scene, ufo: Ufo, xPosition?: number) {
         scene.anims.createFromAseprite('milCar')
         this.ufo = ufo
         this.scene = scene
-        this.sprite = this.scene.physics.add.sprite(xPosition?? 100, 740, 'milCar')
+        this.sprite = this.scene.physics.add.sprite(xPosition ?? 100, 740, 'milCar')
             .setSize(100, 50)
             .setOffset(0, 27)
             .setBounce(0, 0.2)
             .setMaxVelocity(10000, 60)
             .setDepth(2)
+        this.bullets.push(this.scene.physics.add.image(this.sprite.x, this.sprite.y, 'hooman'))
     }
 
-    update() {
+    update(time, delta) {
         if (this.sprite?.active && !this.dead) {
             this.updateMovement()
         }
+        this.fire(time, delta)
+        this.bullets.forEach(bullet => {
+            if(bullet.y <= 0) {
+                bullet.destroy()
+            }
+        })
+    }
+
+
+    fire(time, delta) {
+        if (this.lastShot > 3000) {
+            let bullet = this.scene.physics.add.image(this.sprite.x, this.sprite.y, 'hooman')
+            this.bullets.push(bullet)
+            this.scene.physics.add.collider(bullet, this.ufo.ufo, ()=>{
+                bullet.destroy()
+                this.ufo.health --
+            })
+            this.bullets[this.bullets.length - 1].body.setAllowGravity(false)
+            this.scene.physics.moveTo(this.bullets[this.bullets.length - 1], this.ufo.ufo.x, this.ufo.ufo.y, 300)
+            this.lastShot = 0
+        }
+        this.lastShot += delta
+
     }
 
     updateMovement() {
