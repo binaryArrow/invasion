@@ -5,13 +5,14 @@ export class Ufo {
     beam
     scene
     movementKeys: (Phaser.Input.Keyboard.Key | undefined)[] = []
-    health = 3
+    health = 1
+
     constructor(scene: Scene) {
         this.scene = scene
         this.scene.anims.createFromAseprite('laserBeam')
         this.ufo = scene.physics.add.image(300, 80, 'ufo')
             .setImmovable(true)
-            .body.setAllowGravity(false).setSize(60,60)
+            .body.setAllowGravity(false).setSize(60, 60)
             .setOffset(21, 20)
             .setCollideWorldBounds(true)
         this.setKeys()
@@ -26,7 +27,10 @@ export class Ufo {
     update() {
         this.updateMovement()
         this.updateActions()
-        console.log(this.health)
+        if (this.health <= 0) {
+            this.ufo.setAllowGravity(true).destroy()
+            this.beam.destroy()
+        }
     }
 
     setKeys() {
@@ -50,18 +54,20 @@ export class Ufo {
     }
 
     updateActions() {
-        if(this.ufo.velocity.x == 0 && this.ufo.rotation > -1 && this.ufo.rotation < 1 && !this.beam.anims.isPlaying) {
-            this.beam.setX(this.ufo.x + 3)
-                .setY(this.ufo.y + 80)
-                .setVisible(true)
-                .play({key: 'Beam'})
-                .once('animationcomplete', () => {
-                    this.beam.play({key: 'Loop', repeat: -1})
-                })
-                .enableBody()
-        } else if(this.ufo.velocity.x != 0) {
-            this.beam.setVisible(false).anims.stop()
-            this.beam.disableBody()
+        if (this.beam.active) {
+            if (this.ufo.velocity.x == 0 && this.ufo.rotation > -1 && this.ufo.rotation < 1 && !this.beam.anims.isPlaying) {
+                this.beam.setX(this.ufo.x + 3)
+                    .setY(this.ufo.y + 80)
+                    .setVisible(true)
+                    .play({key: 'Beam'})
+                    .once('animationcomplete', () => {
+                        this.beam.play({key: 'Loop', repeat: -1})
+                    })
+                    .enableBody()
+            } else if (this.ufo.velocity.x != 0) {
+                this.beam.setVisible(false).anims.stop()
+                this.beam.disableBody()
+            }
         }
     }
 }

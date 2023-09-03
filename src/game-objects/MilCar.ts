@@ -43,7 +43,7 @@ export class MilCar {
 
 
     fire(time, delta) {
-        if (this.lastShot > 3000) {
+        if (this.lastShot > 2500 && !this.dead) {
             let bullet = this.scene.physics.add.image(this.sprite.x, this.sprite.y, 'hooman')
             this.bullets.push(bullet)
             this.scene.physics.add.collider(bullet, this.ufo.ufo, ()=>{
@@ -51,7 +51,7 @@ export class MilCar {
                 this.ufo.health --
             })
             this.bullets[this.bullets.length - 1].body.setAllowGravity(false)
-            this.scene.physics.moveTo(this.bullets[this.bullets.length - 1], this.ufo.ufo.x, this.ufo.ufo.y, 300)
+            this.scene.physics.moveTo(this.bullets[this.bullets.length - 1], this.ufo.ufo.x, this.ufo.ufo.y, 200)
             this.lastShot = 0
         }
         this.lastShot += delta

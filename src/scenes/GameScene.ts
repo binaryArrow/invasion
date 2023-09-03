@@ -23,6 +23,7 @@ export class GameScene extends Scene {
         this.load.aseprite('milCar', '../../assets/enemies/mil_car.png', '../../assets/enemies/mil_car.json')
         this.load.image('milCarDead', '../../assets/enemies/mil_car_dead.png')
         this.load.image('hoomanUi', '../../assets/UI/hooman-ui.png')
+        this.load.image('healthUi', '../../assets/UI/health.png')
         this.load.image('hoomanDead', '../../assets/hooman_dead.png')
     }
 
@@ -39,7 +40,7 @@ export class GameScene extends Scene {
             )
         }
         // create UI
-        this.ui = new UserInterface(this);
+        this.ui = new UserInterface(this, this.ufo);
 
         // set colliders
         this.setColliders()
