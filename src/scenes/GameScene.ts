@@ -17,18 +17,18 @@ export class GameScene extends Scene {
         super({key: 'GameScene'});
     }
     preload() {
-        this.load.image('ufo', '../../assets/ufo.png');
-        this.load.image('level1', '../../assets/background_level_1.png');
-        this.load.aseprite('laserBeam', '../../assets/laser-beam.png', '../../assets/laser-beam.json')
-        this.load.aseprite('hooman', '../../assets/hooman.png', '../../assets/hooman.json')
-        this.load.aseprite('milCar', '../../assets/enemies/mil_car.png', '../../assets/enemies/mil_car.json')
-        this.load.aseprite('explosion', '../../assets/enemies/explosion.png', '../../assets/enemies/explosion.json')
-        this.load.image('bomb', '../../assets/enemies/bomb.png')
-        this.load.image('milCarDead', '../../assets/enemies/mil_car_dead.png')
-        this.load.image('hoomanUi', '../../assets/UI/hooman-ui.png')
-        this.load.image('healthUi', '../../assets/UI/health.png')
-        this.load.image('hoomanDead', '../../assets/hooman_dead.png')
-        this.load.audio('lvl1', '../../assets/sounds/lvl1.mp3')
+        this.load.image('ufo', './assets/ufo.png');
+        this.load.image('level1', './assets/background_level_1.png');
+        this.load.aseprite('laserBeam', './assets/laser-beam.png', './assets/laser-beam.json')
+        this.load.aseprite('hooman', './assets/hooman.png', './assets/hooman.json')
+        this.load.aseprite('milCar', './assets/enemies/mil_car.png', './assets/enemies/mil_car.json')
+        this.load.aseprite('explosion', './assets/enemies/explosion.png', './assets/enemies/explosion.json')
+        this.load.image('bomb', './assets/enemies/bomb.png')
+        this.load.image('milCarDead', './assets/enemies/mil_car_dead.png')
+        this.load.image('hoomanUi', './assets/UI/hooman-ui.png')
+        this.load.image('healthUi', './assets/UI/health.png')
+        this.load.image('hoomanDead', './assets/hooman_dead.png')
+        this.load.audio('lvl1', './assets/sounds/lvl1.mp3')
     }
 
     create() {
