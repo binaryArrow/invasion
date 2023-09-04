@@ -1,6 +1,8 @@
 import './styles.css'
 import {Game} from 'phaser';
 import {GameScene} from "./scenes/GameScene.ts";
+import {GameOverScene} from "./scenes/GameOverScene.ts";
+import {WinScreen} from "./scenes/WinScreen.ts";
 
 const config = {
     type: Phaser.AUTO,
@@ -20,7 +22,9 @@ const config = {
         autoCenter: Phaser.Scale.CENTER_BOTH,
     },
     scene: [
-        GameScene
+        GameScene,
+        GameOverScene,
+        WinScreen
     ]
 }
 

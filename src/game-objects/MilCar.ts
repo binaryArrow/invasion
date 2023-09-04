@@ -18,6 +18,7 @@ export class MilCar {
 
     constructor(scene: Scene, ufo: Ufo, xPosition?: number) {
         scene.anims.createFromAseprite('milCar')
+        scene.anims.createFromAseprite('explosion')
         this.ufo = ufo
         this.scene = scene
         this.sprite = this.scene.physics.add.sprite(xPosition ?? 100, 740, 'milCar')
@@ -26,10 +27,9 @@ export class MilCar {
             .setBounce(0, 0.2)
             .setMaxVelocity(10000, 60)
             .setDepth(2)
-        this.bullets.push(this.scene.physics.add.image(this.sprite.x, this.sprite.y, 'hooman'))
     }
 
-    update(time, delta) {
+    update(time: number, delta: number) {
         if (this.sprite?.active && !this.dead) {
             this.updateMovement()
         }
@@ -42,15 +42,20 @@ export class MilCar {
     }
 
 
-    fire(time, delta) {
-        if (this.lastShot > 2500 && !this.dead) {
-            let bullet = this.scene.physics.add.image(this.sprite.x, this.sprite.y, 'hooman')
+    fire(_time: number, delta: number) {
+        if (this.lastShot > 3000 && !this.dead) {
+            let bullet = this.scene.physics.add.sprite(this.sprite.x, this.sprite.y, 'explosion').setScale(0.3, 0.3)
+            bullet.setSize(50, 50)
             this.bullets.push(bullet)
+            // @ts-ignore
             this.scene.physics.add.collider(bullet, this.ufo.ufo, ()=>{
-                bullet.destroy()
+                bullet.play({key: 'explode', repeat: 1}).once('animationcomplete', () => {
+                    bullet.destroy()
+                })
                 this.ufo.health --
             })
-            this.bullets[this.bullets.length - 1].body.setAllowGravity(false)
+            // @ts-ignore
+            this.bullets[this.bullets.length - 1].body!!.setAllowGravity(false)
             this.scene.physics.moveTo(this.bullets[this.bullets.length - 1], this.ufo.ufo.x, this.ufo.ufo.y, 200)
             this.lastShot = 0
         }

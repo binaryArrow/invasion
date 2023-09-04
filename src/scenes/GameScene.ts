@@ -1,7 +1,5 @@
 import {Scene} from "phaser";
 import {Ufo} from "../game-objects/Ufo.ts";
-import ufo from '../../assets/ufo.png'
-import level_1 from '../../assets/background_level_1.png'
 import {Level} from "../maps/Level.ts";
 import {Level1} from "../maps/Level1.ts";
 import {Hooman} from "../game-objects/Hooman.ts";
@@ -15,21 +13,28 @@ export class GameScene extends Scene {
     ui: UserInterface | undefined
     milCars: MilCar[] = []
 
+    constructor() {
+        super({key: 'GameScene'});
+    }
     preload() {
-        this.load.image('ufo', ufo);
-        this.load.image('level1', level_1);
+        this.load.image('ufo', '../../assets/ufo.png');
+        this.load.image('level1', '../../assets/background_level_1.png');
         this.load.aseprite('laserBeam', '../../assets/laser-beam.png', '../../assets/laser-beam.json')
         this.load.aseprite('hooman', '../../assets/hooman.png', '../../assets/hooman.json')
         this.load.aseprite('milCar', '../../assets/enemies/mil_car.png', '../../assets/enemies/mil_car.json')
+        this.load.aseprite('explosion', '../../assets/enemies/explosion.png', '../../assets/enemies/explosion.json')
+        this.load.image('bomb', '../../assets/enemies/bomb.png')
         this.load.image('milCarDead', '../../assets/enemies/mil_car_dead.png')
         this.load.image('hoomanUi', '../../assets/UI/hooman-ui.png')
         this.load.image('healthUi', '../../assets/UI/health.png')
         this.load.image('hoomanDead', '../../assets/hooman_dead.png')
+        this.load.audio('lvl1', '../../assets/sounds/lvl1.mp3')
     }
 
     create() {
         // create level
         this.level = new Level1(this)
+        this.sound.play('lvl1', {loop: true, volume: 0.2})
 
         // create game objects
         this.ufo = new Ufo(this)
@@ -115,9 +120,6 @@ export class GameScene extends Scene {
                         hoooman.hooman.destroy()
                         hoooman.deadImg = this.add.image(hoooman.hooman.x, hoooman.hooman.y - hoooman.hooman.height / 6, 'hoomanDead')
                             .setScale(0.25, 0.25)
-                        setTimeout(() => {
-                            hoooman.deadImg.destroy()
-                        }, 500)
                         hoooman.lastHeight = hoooman.hooman.y
                     }
                 }

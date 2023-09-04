@@ -8,6 +8,8 @@ export class UserInterface {
     scoreText: Text
     healthText: Text
     ufo: Ufo
+    timer
+    timerText
 
     constructor(scene: Scene, ufo: Ufo) {
         this.scene = scene
@@ -16,14 +18,30 @@ export class UserInterface {
         this.scoreText = scene.add.text(40, 10, this.score.toString(),{
             font: 'bold 25px monospace'
         })
-        this.scene.add.sprite(100, 25, 'healthUi').setScale(0.4, 0.4)
-        this.healthText = scene.add.text(125, 10, ufo.health.toString(),{
+        this.scene.add.sprite(140, 25, 'healthUi').setScale(0.4, 0.4)
+        this.healthText = scene.add.text(160, 10, ufo.health.toString(),{
             font: 'bold 25px monospace'
         })
+        this.timer = this.scene.time.addEvent({delay: 60000, callback: () => {
+                this.scene.scene.pause()
+                this.scene.scene.launch('GameOverScene')
+            }})
+        this.timerText = this.scene.add.text( 1400, 10, '')
+
     }
 
     update() {
-        this.scoreText.text = this.score.toString()
+        this.scoreText.text = this.score.toString() + '/10'
         this.healthText.text = this.ufo.health.toString()
+        if(this.ufo.health <= 0) {
+            this.scene.scene.pause()
+            this.scene.sound.stopAll()
+            this.scene.scene.launch('GameOverScene')
+        } else if(this.score >= 10) {
+            this.scene.scene.pause()
+            this.scene.sound.stopAll()
+            this.scene.scene.launch('WinScreen', {seconds: (60 - parseFloat(this.timer.getRemainingSeconds().toFixed(2))).toFixed(2).toString()})
+        }
+        this.timerText.setText('TIME: ' + this.timer.getRemainingSeconds().toFixed(2).toString())
     }
 }

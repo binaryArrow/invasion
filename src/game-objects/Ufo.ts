@@ -5,7 +5,7 @@ export class Ufo {
     beam
     scene
     movementKeys: (Phaser.Input.Keyboard.Key | undefined)[] = []
-    health = 1
+    health = 3
 
     constructor(scene: Scene) {
         this.scene = scene
